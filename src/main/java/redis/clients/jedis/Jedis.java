@@ -14,7 +14,7 @@ import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.util.SafeEncoder;
 import redis.clients.util.Slowlog;
 
-public class Jedis extends BinaryJedis implements JedisCommands, MultiKeyCommands, AdvancedJedisCommands, ScriptingCommands, BasicCommands {
+public class Jedis extends BinaryJedis implements JedisCommands, MultiKeyCommands, AdvancedJedisCommands, ScriptingCommands, BasicCommands, VvCommands {
     public Jedis(final String host) {
 	super(host);
     }
@@ -3153,4 +3153,26 @@ public class Jedis extends BinaryJedis implements JedisCommands, MultiKeyCommand
 	}
 	return new ScanResult<Tuple>(newcursor, results);
     }
+
+	@Override
+	public Long vvcube(final String cube, final String... nr_di_per_dim) {
+    	checkIsInMulti();
+    	client.vvcube(cube, nr_di_per_dim);
+    	return client.getIntegerReply();
+	}
+
+	@Override
+	public List<String> vvset(final String cube, final double val, final String... idx) {
+    	checkIsInMulti();
+    	client.vvset(cube, val, idx);
+    	return client.getMultiBulkReply();
+	}
+
+	@Override
+	public List<String> vvget(final String cube, final String... idx) {
+    	checkIsInMulti();
+    	client.vvget(cube, idx);
+    	//return Double.valueOf(newscore);
+    	return client.getMultiBulkReply();
+	}
 }

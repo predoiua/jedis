@@ -820,4 +820,18 @@ public class Client extends BinaryClient implements Commands {
     public void zscan(final String key, int cursor, final ScanParams params) {
  	zscan(SafeEncoder.encode(key), cursor, params);
     }
+    
+    public void vvcube(final String cube, final String... nr_di_per_dim) {
+    	//bitop(op, SafeEncoder.encode(destKey), getByteParams(srcKeys));
+    	vvcube( SafeEncoder.encode(cube), getByteParams(nr_di_per_dim) );
+    }
+    public void vvget(final String cube, final String... idx) {
+    	vvget( SafeEncoder.encode(cube), getByteParams(idx) );
+    }    
+    public void vvset(final String cube, final double value, final String... idx) {
+    	vvset( SafeEncoder.encode(cube)
+    			,SafeEncoder.encode(String.valueOf(value))
+    			,getByteParams(idx) 
+    		);
+    }
 }

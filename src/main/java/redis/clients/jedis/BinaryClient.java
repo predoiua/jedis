@@ -1,6 +1,12 @@
 package redis.clients.jedis;
 
 import redis.clients.jedis.Protocol.Command;
+import static redis.clients.jedis.Protocol.Command.EXISTS;
+import static redis.clients.jedis.Protocol.Command.PSUBSCRIBE;
+import static redis.clients.jedis.Protocol.Command.PUNSUBSCRIBE;
+import static redis.clients.jedis.Protocol.Command.SUBSCRIBE;
+import static redis.clients.jedis.Protocol.Command.UNSUBSCRIBE;
+
 import redis.clients.jedis.Protocol.Keyword;
 import redis.clients.util.SafeEncoder;
 
@@ -10,11 +16,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import static redis.clients.jedis.Protocol.Command.*;
-import static redis.clients.jedis.Protocol.Command.EXISTS;
-import static redis.clients.jedis.Protocol.Command.PSUBSCRIBE;
-import static redis.clients.jedis.Protocol.Command.PUNSUBSCRIBE;
-import static redis.clients.jedis.Protocol.Command.SUBSCRIBE;
-import static redis.clients.jedis.Protocol.Command.UNSUBSCRIBE;
 import static redis.clients.jedis.Protocol.Keyword.*;
 import static redis.clients.jedis.Protocol.toByteArray;
 
@@ -1135,4 +1136,28 @@ public class BinaryClient extends Connection {
     public void waitReplicas(int replicas, long timeout) {
 	sendCommand(WAIT, toByteArray(replicas), toByteArray(timeout));
     }
+    
+    private void vv( final Command cmd, final byte[] cube, final byte[]... idx) {
+     	final List<byte[]> args = new ArrayList<byte[]>();
+     	args.add(cube);
+    	for (final byte[] arg : idx) {
+    	    args.add(arg);
+    	}
+     	sendCommand(cmd, args.toArray(new byte[args.size()][]));     	
+    }
+    public void vvcube(final byte[] cube, final byte[]... nr_di_per_dim) {
+     	vv(VVCUBE, cube, nr_di_per_dim);
+    }
+    public void vvget(final byte[] cube, final byte[]... idx) {
+     	vv(VVGET, cube, idx);
+    }
+    public void vvset(final byte[] cube, final byte[] val, final byte[]... idx) {
+     	final List<byte[]> args = new ArrayList<byte[]>();
+     	args.add(cube);
+    	for (final byte[] arg : idx) {
+    	    args.add(arg);
+    	}
+	    args.add(val);
+     	sendCommand(VVSET, args.toArray(new byte[args.size()][]));     
+    }    
 }
