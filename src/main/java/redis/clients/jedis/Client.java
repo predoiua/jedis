@@ -834,4 +834,8 @@ public class Client extends BinaryClient implements Commands {
     			,getByteParams(idx) 
     		);
     }
+    public void vv(final String cmd, String... args) {
+    	sendCommandVV(cmd, args);
+    }    
+    
 }

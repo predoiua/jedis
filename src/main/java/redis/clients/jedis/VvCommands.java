@@ -10,4 +10,7 @@ public interface VvCommands {
 	List<String> vvset (String cube, double val, String... idx);
 	//List<String> 
 	List<String> vvget (String cube, String... idx);
+	
+	//Generic command
+	List<String> vv (String cmd, String... args);
 }

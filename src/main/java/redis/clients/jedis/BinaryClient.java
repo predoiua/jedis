@@ -1159,5 +1159,6 @@ public class BinaryClient extends Connection {
     	}
 	    args.add(val);
      	sendCommand(VVSET, args.toArray(new byte[args.size()][]));     
-    }    
+    }
+
 }

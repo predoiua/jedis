@@ -44,6 +44,10 @@ public class Vv10Test {
 		System.out.println("=== set same value ===");
 		rl = jedis.vvset("c1",10., "1","2","3");
 		print_rl();
+		rl = jedis.vv("vvget", "c1", "1", "2", "3");
+		print_rl();
+
+		
 	}
 	
 	public static void main(String[] args) {

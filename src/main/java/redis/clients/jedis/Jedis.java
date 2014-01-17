@@ -3175,4 +3175,11 @@ public class Jedis extends BinaryJedis implements JedisCommands, MultiKeyCommand
     	//return Double.valueOf(newscore);
     	return client.getMultiBulkReply();
 	}
+
+	@Override
+	public List<String> vv(String cmd, String... args) {
+    	checkIsInMulti();
+    	client.vv(cmd, args);
+    	return client.getMultiBulkReply();
+	}
 }

@@ -84,6 +84,15 @@ public class Connection {
         pipelinedCommands++;
         return this;
     }
+
+    protected Connection sendCommandVV(final String cmd, final String... args) {
+        final byte[][] bargs = new byte[args.length][];
+        for (int i = 0; i < args.length; i++) {
+            bargs[i] = SafeEncoder.encode(args[i]);
+        }
+        Protocol.sendCommand(outputStream, SafeEncoder.encode(cmd), bargs);
+        return this;
+    }
     
     protected Connection sendCommand(final Command cmd) {
         connect();

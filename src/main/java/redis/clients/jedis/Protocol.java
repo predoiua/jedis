@@ -39,7 +39,7 @@ public final class Protocol {
 	sendCommand(os, command.raw, args);
     }
 
-    private static void sendCommand(final RedisOutputStream os,
+    public static void sendCommand(final RedisOutputStream os,
 	    final byte[] command, final byte[]... args) {
 	try {
 	    os.write(ASTERISK_BYTE);
